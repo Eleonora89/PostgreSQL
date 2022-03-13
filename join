@@ -1,1 +1,331 @@
+select * from salarys;
+select * from employees;
+select * from employees_salarys;
+select * from roless;
+select * from roless_employees;
 
+--������� ���� ���������� ��� �������� ���� � ����, ������ � ����������
+select * from employees
+join employees_salarys on employees.id = employees_salarys.employee_id 
+join salarys on salarys.id = employees_salarys.salarys_id 
+where monthly_salary is not null
+order by (monthly_salary);
+
+-- ������ ������� ����� ��������� �������
+select employee_name, monthly_salary from employees_salarys
+join employees on employee_id = employees.id
+join salarys on salarys_id = salarys.id
+order by (monthly_salary);
+
+
+--������� ���� ���������� � ������� �� ������ 2000
+select employee_name, monthly_salary from employees
+join employees_salarys on employees.id = employees_salarys.employee_id 
+join salarys on salarys.id = employees_salarys.salarys_id 
+where salarys.monthly_salary < 2000
+order by (monthly_salary);
+
+
+-- ������ ������� ����� ��������� �������
+select employee_name, monthly_salary from employees_salarys
+join employees on employee_id = employees.id
+join salarys on salarys_id = salarys.id
+where salarys.monthly_salary < 2000
+order by (monthly_salary);
+
+
+
+--3. ������� ��� ���������� �������, �� �������� �� ��� �� ��������. (�� ����, �� �� ������� ��� � ��������.)
+select employee_name, monthly_salary from employees
+full join employees_salarys on employees.id = employees_salarys.employee_id 
+full join salarys on salarys.id = employees_salarys.salarys_id
+where employees.employee_name is null;
+
+-- ������ ������� ����� ��������� �������
+select employee_name, monthly_salary from employees_salarys
+full join  employees on employee_id = employees.id
+RIGHT outer join salarys on salarys_id = salarys.id
+where employees.employee_name is null;
+
+-- 4. ������� ��� ���������� ������� ������ 2000 �� �������� �� ��� �� ��������. (�� ����, �� �� ������� ��� � ��������.)!!!!!!!!!!!!!!!!!!!!
+select employee_name, monthly_salary from employees
+full join employees_salarys on employees.id = employees_salarys.employee_id 
+full join salarys on salarys.id = employees_salarys.salarys_id
+where employees.employee_name is null and salarys.monthly_salary < 2000;
+
+-- ������ ������� ����� ��������� �������
+select employee_name, monthly_salary from employees_salarys
+full join  employees on employee_id = employees.id
+RIGHT outer join salarys on salarys_id = salarys.id
+where employees.employee_name is null and salarys.monthly_salary < 2000;
+
+
+--5. ����� ���� ���������� ���� �� ��������� ��
+select employee_name, monthly_salary from employees
+full join employees_salarys on employees.id = employees_salarys.employee_id 
+full join salarys on salarys.id = employees_salarys.salarys_id
+where monthly_salary is null;
+
+
+--�6. ������� ���� ���������� � ���������� �� ���������
+select employee_name, role_name from employees
+left join roless_employees on  employees.id = roless_employees.emploee_id
+join roless on roless.id = roless_employees.role_id;
+
+-- ������ ������� ����� ��������� �������
+select employee_name, role_name from roless_employees
+join  employees on emploee_id = employees.id
+join roless on role_id = roless.id;
+
+
+
+--�7. ������� ����� � ��������� ������ Java �������������
+select employee_name, role_name, monthly_salary from employees
+join employees_salarys on employees.id = employees_salarys.employee_id 
+join salarys on salarys.id = employees_salarys.salarys_id 
+join roless_employees on employees.id = roless_employees.emploee_id 
+join roless on roless.id = roless_employees.role_id 
+where roless.role_name like '%Java% developer%';
+
+
+
+-- 8. ������� ����� � ��������� ������ Python �������������.
+select employee_name, role_name, monthly_salary from employees
+full join employees_salarys on employees.id = employees_salarys.employee_id 
+full join salarys on salarys.id = employees_salarys.salarys_id 
+full join roless_employees on employees.id = roless_employees.emploee_id 
+full join roless on roless.id = roless_employees.role_id 
+where roless.role_name like '%Python%';
+
+
+--�9. ������� ����� � ��������� ���� QA ���������.
+select employee_name, role_name, monthly_salary from employees
+full join employees_salarys on employees.id = employees_salarys.employee_id 
+full join salarys on salarys.id = employees_salarys.salarys_id 
+full join roless_employees on employees.id = roless_employees.emploee_id 
+full join roless on roless.id = roless_employees.role_id
+where roless.role_name like '%QA% %engineer%';
+
+--�10. ������� ����� � ��������� ������ QA ���������.
+select employee_name, role_name, monthly_salary from employees
+full join employees_salarys on employees.id = employees_salarys.employee_id 
+full join salarys on salarys.id = employees_salarys.salarys_id 
+full join roless_employees on employees.id = roless_employees.emploee_id 
+full join roless on roless.id = roless_employees.role_id
+where roless.role_name like '%Manual% %QA% %engineer%';
+
+-- 11. ������� ����� � ��������� ��������������� QA
+select employee_name, role_name, monthly_salary from employees
+full join employees_salarys on employees.id = employees_salarys.employee_id 
+full join salarys on salarys.id = employees_salarys.salarys_id 
+full join roless_employees on employees.id = roless_employees.emploee_id 
+full join roless on roless.id = roless_employees.role_id
+where roless.role_name like '%Automation% %QA% engineer%';
+
+-- 12. ������� ����� � �������� Junior ������������
+select employee_name, role_name, monthly_salary from employees
+join employees_salarys on employees.id = employees_salarys.employee_id 
+join salarys on salarys.id = employees_salarys.salarys_id 
+join roless_employees on employees.id = roless_employees.emploee_id 
+join roless on roless.id = roless_employees.role_id 
+where roless.role_name like '%Junior%';
+
+
+-- 13. ������� ����� � �������� Middle ������������
+select employee_name, role_name, monthly_salary from employees
+join employees_salarys on employees.id = employees_salarys.employee_id 
+join salarys on salarys.id = employees_salarys.salarys_id 
+join roless_employees on employees.id = roless_employees.emploee_id 
+join roless on roless.id = roless_employees.role_id 
+where roless.role_name like '%Middle%';
+
+-- 14. ������� ����� � �������� Senior ������������
+select employee_name, role_name, monthly_salary from employees
+join employees_salarys on employees.id = employees_salarys.employee_id 
+join salarys on salarys.id = employees_salarys.salarys_id 
+join roless_employees on employees.id = roless_employees.emploee_id 
+join roless on roless.id = roless_employees.role_id 
+where roless.role_name like '%Senior%';
+
+-- 15. ������� �������� Java �������������
+select employee_name, role_name, monthly_salary from employees
+join roless_employees on employees.id = roless_employees.emploee_id 
+join roless on roless.id = roless_employees.role_id 
+join employees_salarys on employees.id = employees_salarys.employee_id
+join salarys on employees_salarys.salarys_id = salarys.id 
+where roless.role_name like '%Java% %developer%';
+
+-- 16. ������� �������� Python �������������
+select employee_name, role_name, monthly_salary from employees
+join roless_employees on employees.id = roless_employees.emploee_id 
+join roless on roless.id = roless_employees.role_id
+join employees_salarys on employees.id = employees_salarys.employee_id
+join salarys on employees_salarys.salarys_id = salarys.id 
+where roless.role_name like '%Python%';
+
+
+-- 17. ������� ����� � �������� Junior Python �������������
+select employee_name, role_name, monthly_salary from employees
+join employees_salarys on employees.id = employees_salarys.employee_id 
+join salarys on salarys.id = employees_salarys.salarys_id 
+join roless_employees on employees.id = roless_employees.emploee_id 
+join roless on roless.id = roless_employees.role_id
+where roless.role_name like '%Junior% %Python%';
+
+-- 18. ������� ����� � �������� Middle JS �������������
+select employee_name, role_name, monthly_salary from employees
+join employees_salarys on employees.id = employees_salarys.employee_id 
+join salarys on salarys.id = employees_salarys.salarys_id 
+join roless_employees on employees.id = roless_employees.emploee_id 
+join roless on roless.id = roless_employees.role_id
+where roless.role_name like '%Middle% %Java% %developer%';
+
+-- 19. ������� ����� � �������� Senior Java �������������
+select employee_name, role_name, monthly_salary from employees
+join employees_salarys on employees.id = employees_salarys.employee_id 
+join salarys on salarys.id = employees_salarys.salarys_id 
+join roless_employees on employees.id = roless_employees.emploee_id 
+join roless on roless.id = roless_employees.role_id
+where roless.role_name like '%Senior% %Java% %developer%';
+
+-- 20. ������� �������� Junior QA ���������
+select employee_name, role_name, monthly_salary from employees
+join roless_employees on employees.id = roless_employees.emploee_id 
+join roless on roless.id = roless_employees.role_id
+join employees_salarys on employees.id = employees_salarys.employee_id
+join salarys on employees_salarys.salarys_id = salarys.id 
+where roless.role_name like '%Junior% %QA%';
+
+-- 21. ������� ������� �������� ���� Junior ������������
+select avg(salarys.monthly_salary) from employees
+join roless_employees on employees.id = roless_employees.emploee_id 
+join roless on roless_employees.role_id = roless.id
+join employees_salarys on employees.id = employees_salarys.employee_id 
+join salarys on employees_salarys.salarys_id = salarys.id
+where roless.role_name like '%Junior%';
+--group by roless.role_name
+--order by avg(salarys.monthly_salary) ASC
+
+
+-- 22. ������� ����� ������� JS ������������� 
+select sum(salarys.monthly_salary) from employees
+join roless_employees on employees.id = roless_employees.emploee_id 
+join roless on roless_employees.role_id = roless.id
+join employees_salarys on employees.id = employees_salarys.employee_id 
+join salarys on employees_salarys.salarys_id = salarys.id
+where roless.role_name like '%Java% %developer%';
+
+
+-- 23. ������� ����������� �� QA ��������� 
+select min(salarys.monthly_salary) from employees
+join roless_employees on employees.id = roless_employees.emploee_id 
+join roless on roless_employees.role_id = roless.id
+join employees_salarys on employees.id = employees_salarys.employee_id 
+join salarys on employees_salarys.salarys_id = salarys.id
+where roless.role_name like '%QA% %engineer%';
+
+
+-- 24. ������� ������������ �� QA ���������
+select max(salarys.monthly_salary) from employees
+join roless_employees on employees.id = roless_employees.emploee_id 
+join roless on roless_employees.role_id = roless.id
+join employees_salarys on employees.id = employees_salarys.employee_id 
+join salarys on employees_salarys.salarys_id = salarys.id
+where roless.role_name like '%QA% %engineer%';
+
+
+
+-- 25. ������� ���������� QA ���������
+-- ������ �����������
+select count(roless.role_name) from roless 
+where roless.role_name like '%QA% %engineer%';
+
+-- ����� ����  QA ��������� � ��������
+select count(roless.role_name) from employees
+full join employees_salarys on employees.id = employees_salarys.employee_id 
+full join salarys on salarys.id = employees_salarys.salarys_id 
+full join roless_employees on employees.id = roless_employees.emploee_id 
+full join roless on roless.id = roless_employees.role_id
+where roless.role_name like '%QA% %engineer%';
+
+
+-- 26. ������� ���������� Middle ������������.
+
+-- ������ �����������
+select count(roless.role_name) from roless 
+where roless.role_name like '%Middle%';
+
+-- ����� ����  QA ��������� � ��������
+select count(roless.role_name) from employees
+full join employees_salarys on employees.id = employees_salarys.employee_id 
+full join salarys on salarys.id = employees_salarys.salarys_id 
+full join roless_employees on employees.id = roless_employees.emploee_id 
+full join roless on roless.id = roless_employees.role_id
+where roless.role_name like '%Middle%';
+
+
+-- 27. ������� ���������� ������������� 
+
+-- ������ �����������
+select count(roless.role_name) from roless 
+where roless.role_name like '%developer%';
+
+-- ����� ����  QA ��������� � ��������
+select count(roless.role_name) from employees
+full join employees_salarys on employees.id = employees_salarys.employee_id 
+full join salarys on salarys.id = employees_salarys.salarys_id 
+full join roless_employees on employees.id = roless_employees.emploee_id 
+full join roless on roless.id = roless_employees.role_id
+where roless.role_name like '%developer%';
+
+
+-- 28. ������� ���� (�����) �������� �������������.
+select sum(monthly_salary) from employees
+join salarys on roless_salarys.id_salarys = salarys.id
+join roless on roless_salarys.id_roless = roless.id
+where roless.role_name like '%developer%';
+
+
+----������ �������
+select * from roless_salarys
+join salarys on roless_salarys.id_salarys = salarys.id
+join roless on roless_salarys.id_roless = roless.id
+where roless.role_name like '%developer%';
+
+
+
+-- 29. ������� �����, ��������� � �� ���� ������������ �� �����������
+select * from employees
+join roless_employees on employees.id = roless_employees.emploee_id 
+join roless on roless.id = roless_employees.role_id 
+join employees_salarys on employees.id = employees_salarys.employee_id 
+join salarys on salarys.id = employees_salarys.salarys_id
+order by salarys.monthly_salary asc;
+
+-- 30. ������� �����, ��������� � �� ���� ������������ �� ����������� � ������������ � ������� �� �� 1700 �� 2300
+select * from employees
+join roless_employees on employees.id = roless_employees.emploee_id 
+join roless on roless.id = roless_employees.role_id 
+join employees_salarys on employees.id = employees_salarys.employee_id 
+join salarys on salarys.id = employees_salarys.salarys_id
+where salarys.monthly_salary between 1700 and 2300
+order by salarys.monthly_salary asc;
+
+-- 31. ������� �����, ��������� � �� ���� ������������ �� ����������� � ������������ � ������� �� ������ 2300
+select * from employees
+join roless_employees on employees.id = roless_employees.emploee_id 
+join roless on roless.id = roless_employees.role_id 
+join employees_salarys on employees.id = employees_salarys.employee_id 
+join salarys on salarys.id = employees_salarys.salarys_id
+where salarys.monthly_salary < 2300
+order by salarys.monthly_salary asc;
+
+-- 32. ������� �����, ��������� � �� ���� ������������ �� ����������� � ������������ � ������� �� ����� 1100, 1500, 2000
+select * from employees
+join roless_employees on employees.id = roless_employees.emploee_id 
+join roless on roless.id = roless_employees.role_id 
+join employees_salarys on employees.id = employees_salarys.employee_id 
+join salarys on salarys.id = employees_salarys.salarys_id
+where salarys.monthly_salary = 1100 or salarys.monthly_salary = 1500 or salarys.monthly_salary = 2000
+-- ��� where salarys.monthly_salary in (1100, 1500, 2000)
+order by salarys.monthly_salary asc;
