@@ -4,21 +4,21 @@ select * from employees_salarys;
 select * from roless;
 select * from roless_employees;
 
---������� ���� ���������� ��� �������� ���� � ����, ������ � ����������
+--Вывести всех работников чьи зарплаты есть в базе, вместе с зарплатами
 select * from employees
 join employees_salarys on employees.id = employees_salarys.employee_id 
 join salarys on salarys.id = employees_salarys.salarys_id 
 where monthly_salary is not null
 order by (monthly_salary);
 
--- ������ ������� ����� ��������� �������
+-- второй вариант через связанную таблицу
 select employee_name, monthly_salary from employees_salarys
 join employees on employee_id = employees.id
 join salarys on salarys_id = salarys.id
 order by (monthly_salary);
 
 
---������� ���� ���������� � ������� �� ������ 2000
+--Вывести всех работников у которых ЗП меньше 2000
 select employee_name, monthly_salary from employees
 join employees_salarys on employees.id = employees_salarys.employee_id 
 join salarys on salarys.id = employees_salarys.salarys_id 
@@ -26,7 +26,7 @@ where salarys.monthly_salary < 2000
 order by (monthly_salary);
 
 
--- ������ ������� ����� ��������� �������
+-- второй вариант через связанную таблицу
 select employee_name, monthly_salary from employees_salarys
 join employees on employee_id = employees.id
 join salarys on salarys_id = salarys.id
@@ -35,51 +35,51 @@ order by (monthly_salary);
 
 
 
---3. ������� ��� ���������� �������, �� �������� �� ��� �� ��������. (�� ����, �� �� ������� ��� � ��������.)
+--3. Вывести все зарплатные позиции, но работник по ним не назначен. (ЗП есть, но не понятно кто её получает.)
 select employee_name, monthly_salary from employees
 full join employees_salarys on employees.id = employees_salarys.employee_id 
 full join salarys on salarys.id = employees_salarys.salarys_id
 where employees.employee_name is null;
 
--- ������ ������� ����� ��������� �������
+-- второй вариант через связанную таблицу
 select employee_name, monthly_salary from employees_salarys
 full join  employees on employee_id = employees.id
 RIGHT outer join salarys on salarys_id = salarys.id
 where employees.employee_name is null;
 
--- 4. ������� ��� ���������� ������� ������ 2000 �� �������� �� ��� �� ��������. (�� ����, �� �� ������� ��� � ��������.)!!!!!!!!!!!!!!!!!!!!
+-- 4. Вывести все зарплатные позиции меньше 2000 но работник по ним не назначен. (ЗП есть, но не понятно кто её получает.)!!!!!!!!!!!!!!!!!!!!
 select employee_name, monthly_salary from employees
 full join employees_salarys on employees.id = employees_salarys.employee_id 
 full join salarys on salarys.id = employees_salarys.salarys_id
 where employees.employee_name is null and salarys.monthly_salary < 2000;
 
--- ������ ������� ����� ��������� �������
+-- второй вариант через связанную таблицу
 select employee_name, monthly_salary from employees_salarys
 full join  employees on employee_id = employees.id
 RIGHT outer join salarys on salarys_id = salarys.id
 where employees.employee_name is null and salarys.monthly_salary < 2000;
 
 
---5. ����� ���� ���������� ���� �� ��������� ��
+--5. Найти всех работников кому не начислена ЗП
 select employee_name, monthly_salary from employees
 full join employees_salarys on employees.id = employees_salarys.employee_id 
 full join salarys on salarys.id = employees_salarys.salarys_id
 where monthly_salary is null;
 
 
---�6. ������� ���� ���������� � ���������� �� ���������
+-- 6. Вывести всех работников с названиями их должности
 select employee_name, role_name from employees
 left join roless_employees on  employees.id = roless_employees.emploee_id
 join roless on roless.id = roless_employees.role_id;
 
--- ������ ������� ����� ��������� �������
+-- второй вариант через связанную таблицу
 select employee_name, role_name from roless_employees
 join  employees on emploee_id = employees.id
 join roless on role_id = roless.id;
 
 
 
---�7. ������� ����� � ��������� ������ Java �������������
+-- 7. Вывести имена и должность только Java разработчиков
 select employee_name, role_name, monthly_salary from employees
 join employees_salarys on employees.id = employees_salarys.employee_id 
 join salarys on salarys.id = employees_salarys.salarys_id 
@@ -89,7 +89,7 @@ where roless.role_name like '%Java% developer%';
 
 
 
--- 8. ������� ����� � ��������� ������ Python �������������.
+-- 8. Вывести имена и должность только Python разработчиков.
 select employee_name, role_name, monthly_salary from employees
 full join employees_salarys on employees.id = employees_salarys.employee_id 
 full join salarys on salarys.id = employees_salarys.salarys_id 
@@ -98,7 +98,7 @@ full join roless on roless.id = roless_employees.role_id
 where roless.role_name like '%Python%';
 
 
---�9. ������� ����� � ��������� ���� QA ���������.
+-- 9. Вывести имена и должность всех QA инженеров.
 select employee_name, role_name, monthly_salary from employees
 full join employees_salarys on employees.id = employees_salarys.employee_id 
 full join salarys on salarys.id = employees_salarys.salarys_id 
@@ -106,7 +106,7 @@ full join roless_employees on employees.id = roless_employees.emploee_id
 full join roless on roless.id = roless_employees.role_id
 where roless.role_name like '%QA% %engineer%';
 
---�10. ������� ����� � ��������� ������ QA ���������.
+-- 10. Вывести имена и должность ручных QA инженеров.
 select employee_name, role_name, monthly_salary from employees
 full join employees_salarys on employees.id = employees_salarys.employee_id 
 full join salarys on salarys.id = employees_salarys.salarys_id 
@@ -114,7 +114,7 @@ full join roless_employees on employees.id = roless_employees.emploee_id
 full join roless on roless.id = roless_employees.role_id
 where roless.role_name like '%Manual% %QA% %engineer%';
 
--- 11. ������� ����� � ��������� ��������������� QA
+-- 11. Вывести имена и должность автоматизаторов QA
 select employee_name, role_name, monthly_salary from employees
 full join employees_salarys on employees.id = employees_salarys.employee_id 
 full join salarys on salarys.id = employees_salarys.salarys_id 
@@ -122,7 +122,7 @@ full join roless_employees on employees.id = roless_employees.emploee_id
 full join roless on roless.id = roless_employees.role_id
 where roless.role_name like '%Automation% %QA% engineer%';
 
--- 12. ������� ����� � �������� Junior ������������
+-- 12. Вывести имена и зарплаты Junior специалистов
 select employee_name, role_name, monthly_salary from employees
 join employees_salarys on employees.id = employees_salarys.employee_id 
 join salarys on salarys.id = employees_salarys.salarys_id 
@@ -131,7 +131,7 @@ join roless on roless.id = roless_employees.role_id
 where roless.role_name like '%Junior%';
 
 
--- 13. ������� ����� � �������� Middle ������������
+-- 13. Вывести имена и зарплаты Middle специалистов
 select employee_name, role_name, monthly_salary from employees
 join employees_salarys on employees.id = employees_salarys.employee_id 
 join salarys on salarys.id = employees_salarys.salarys_id 
@@ -139,7 +139,7 @@ join roless_employees on employees.id = roless_employees.emploee_id
 join roless on roless.id = roless_employees.role_id 
 where roless.role_name like '%Middle%';
 
--- 14. ������� ����� � �������� Senior ������������
+-- 14. Вывести имена и зарплаты Senior специалистов
 select employee_name, role_name, monthly_salary from employees
 join employees_salarys on employees.id = employees_salarys.employee_id 
 join salarys on salarys.id = employees_salarys.salarys_id 
@@ -147,7 +147,7 @@ join roless_employees on employees.id = roless_employees.emploee_id
 join roless on roless.id = roless_employees.role_id 
 where roless.role_name like '%Senior%';
 
--- 15. ������� �������� Java �������������
+-- 15. Вывести зарплаты Java разработчиков
 select employee_name, role_name, monthly_salary from employees
 join roless_employees on employees.id = roless_employees.emploee_id 
 join roless on roless.id = roless_employees.role_id 
@@ -155,7 +155,7 @@ join employees_salarys on employees.id = employees_salarys.employee_id
 join salarys on employees_salarys.salarys_id = salarys.id 
 where roless.role_name like '%Java% %developer%';
 
--- 16. ������� �������� Python �������������
+-- 16. Вывести зарплаты Python разработчиков
 select employee_name, role_name, monthly_salary from employees
 join roless_employees on employees.id = roless_employees.emploee_id 
 join roless on roless.id = roless_employees.role_id
@@ -164,7 +164,7 @@ join salarys on employees_salarys.salarys_id = salarys.id
 where roless.role_name like '%Python%';
 
 
--- 17. ������� ����� � �������� Junior Python �������������
+-- 17. Вывести имена и зарплаты Junior Python разработчиков
 select employee_name, role_name, monthly_salary from employees
 join employees_salarys on employees.id = employees_salarys.employee_id 
 join salarys on salarys.id = employees_salarys.salarys_id 
@@ -172,7 +172,7 @@ join roless_employees on employees.id = roless_employees.emploee_id
 join roless on roless.id = roless_employees.role_id
 where roless.role_name like '%Junior% %Python%';
 
--- 18. ������� ����� � �������� Middle JS �������������
+-- 18. Вывести имена и зарплаты Middle JS разработчиков
 select employee_name, role_name, monthly_salary from employees
 join employees_salarys on employees.id = employees_salarys.employee_id 
 join salarys on salarys.id = employees_salarys.salarys_id 
@@ -180,7 +180,7 @@ join roless_employees on employees.id = roless_employees.emploee_id
 join roless on roless.id = roless_employees.role_id
 where roless.role_name like '%Middle% %Java% %developer%';
 
--- 19. ������� ����� � �������� Senior Java �������������
+-- 19. Вывести имена и зарплаты Senior Java разработчиков
 select employee_name, role_name, monthly_salary from employees
 join employees_salarys on employees.id = employees_salarys.employee_id 
 join salarys on salarys.id = employees_salarys.salarys_id 
@@ -188,7 +188,7 @@ join roless_employees on employees.id = roless_employees.emploee_id
 join roless on roless.id = roless_employees.role_id
 where roless.role_name like '%Senior% %Java% %developer%';
 
--- 20. ������� �������� Junior QA ���������
+-- 20. Вывести зарплаты Junior QA инженеров
 select employee_name, role_name, monthly_salary from employees
 join roless_employees on employees.id = roless_employees.emploee_id 
 join roless on roless.id = roless_employees.role_id
@@ -196,7 +196,7 @@ join employees_salarys on employees.id = employees_salarys.employee_id
 join salarys on employees_salarys.salarys_id = salarys.id 
 where roless.role_name like '%Junior% %QA%';
 
--- 21. ������� ������� �������� ���� Junior ������������
+-- 21. Вывести среднюю зарплату всех Junior специалистов
 select avg(salarys.monthly_salary) from employees
 join roless_employees on employees.id = roless_employees.emploee_id 
 join roless on roless_employees.role_id = roless.id
@@ -207,7 +207,7 @@ where roless.role_name like '%Junior%';
 --order by avg(salarys.monthly_salary) ASC
 
 
--- 22. ������� ����� ������� JS ������������� 
+-- 22. Вывести сумму зарплат JS разработчиков 
 select sum(salarys.monthly_salary) from employees
 join roless_employees on employees.id = roless_employees.emploee_id 
 join roless on roless_employees.role_id = roless.id
@@ -216,7 +216,7 @@ join salarys on employees_salarys.salarys_id = salarys.id
 where roless.role_name like '%Java% %developer%';
 
 
--- 23. ������� ����������� �� QA ��������� 
+-- 23. Вывести минимальную ЗП QA инженеров 
 select min(salarys.monthly_salary) from employees
 join roless_employees on employees.id = roless_employees.emploee_id 
 join roless on roless_employees.role_id = roless.id
@@ -225,7 +225,7 @@ join salarys on employees_salarys.salarys_id = salarys.id
 where roless.role_name like '%QA% %engineer%';
 
 
--- 24. ������� ������������ �� QA ���������
+-- 24. Вывести максимальную ЗП QA инженеров
 select max(salarys.monthly_salary) from employees
 join roless_employees on employees.id = roless_employees.emploee_id 
 join roless on roless_employees.role_id = roless.id
@@ -235,12 +235,12 @@ where roless.role_name like '%QA% %engineer%';
 
 
 
--- 25. ������� ���������� QA ���������
--- ������ �����������
+-- 25. Вывести количество QA инженеров
+-- только долженности
 select count(roless.role_name) from roless 
 where roless.role_name like '%QA% %engineer%';
 
--- ����� ����  QA ��������� � ��������
+-- всего всех  QA инженеров к компании
 select count(roless.role_name) from employees
 full join employees_salarys on employees.id = employees_salarys.employee_id 
 full join salarys on salarys.id = employees_salarys.salarys_id 
@@ -249,13 +249,13 @@ full join roless on roless.id = roless_employees.role_id
 where roless.role_name like '%QA% %engineer%';
 
 
--- 26. ������� ���������� Middle ������������.
+-- 26. Вывести количество Middle специалистов.
 
--- ������ �����������
+-- только долженности
 select count(roless.role_name) from roless 
 where roless.role_name like '%Middle%';
 
--- ����� ����  QA ��������� � ��������
+-- всего всех  QA инженеров к компании
 select count(roless.role_name) from employees
 full join employees_salarys on employees.id = employees_salarys.employee_id 
 full join salarys on salarys.id = employees_salarys.salarys_id 
@@ -264,13 +264,13 @@ full join roless on roless.id = roless_employees.role_id
 where roless.role_name like '%Middle%';
 
 
--- 27. ������� ���������� ������������� 
+-- 27. Вывести количество разработчиков 
 
--- ������ �����������
+-- только долженности
 select count(roless.role_name) from roless 
 where roless.role_name like '%developer%';
 
--- ����� ����  QA ��������� � ��������
+-- всего всех  QA инженеров к компании
 select count(roless.role_name) from employees
 full join employees_salarys on employees.id = employees_salarys.employee_id 
 full join salarys on salarys.id = employees_salarys.salarys_id 
@@ -279,14 +279,14 @@ full join roless on roless.id = roless_employees.role_id
 where roless.role_name like '%developer%';
 
 
--- 28. ������� ���� (�����) �������� �������������.
+-- 28. Вывести фонд (сумму) зарплаты разработчиков.
 select sum(monthly_salary) from employees
 join salarys on roless_salarys.id_salarys = salarys.id
 join roless on roless_salarys.id_roless = roless.id
 where roless.role_name like '%developer%';
 
 
-----������ �������
+----полным списком
 select * from roless_salarys
 join salarys on roless_salarys.id_salarys = salarys.id
 join roless on roless_salarys.id_roless = roless.id
@@ -294,7 +294,7 @@ where roless.role_name like '%developer%';
 
 
 
--- 29. ������� �����, ��������� � �� ���� ������������ �� �����������
+-- 29. Вывести имена, должности и ЗП всех специалистов по возрастанию
 select * from employees
 join roless_employees on employees.id = roless_employees.emploee_id 
 join roless on roless.id = roless_employees.role_id 
@@ -302,7 +302,7 @@ join employees_salarys on employees.id = employees_salarys.employee_id
 join salarys on salarys.id = employees_salarys.salarys_id
 order by salarys.monthly_salary asc;
 
--- 30. ������� �����, ��������� � �� ���� ������������ �� ����������� � ������������ � ������� �� �� 1700 �� 2300
+-- 30. Вывести имена, должности и ЗП всех специалистов по возрастанию у специалистов у которых ЗП от 1700 до 2300
 select * from employees
 join roless_employees on employees.id = roless_employees.emploee_id 
 join roless on roless.id = roless_employees.role_id 
@@ -311,7 +311,7 @@ join salarys on salarys.id = employees_salarys.salarys_id
 where salarys.monthly_salary between 1700 and 2300
 order by salarys.monthly_salary asc;
 
--- 31. ������� �����, ��������� � �� ���� ������������ �� ����������� � ������������ � ������� �� ������ 2300
+-- 31. Вывести имена, должности и ЗП всех специалистов по возрастанию у специалистов у которых ЗП меньше 2300
 select * from employees
 join roless_employees on employees.id = roless_employees.emploee_id 
 join roless on roless.id = roless_employees.role_id 
@@ -320,12 +320,12 @@ join salarys on salarys.id = employees_salarys.salarys_id
 where salarys.monthly_salary < 2300
 order by salarys.monthly_salary asc;
 
--- 32. ������� �����, ��������� � �� ���� ������������ �� ����������� � ������������ � ������� �� ����� 1100, 1500, 2000
+-- 32. Вывести имена, должности и ЗП всех специалистов по возрастанию у специалистов у которых ЗП равна 1100, 1500, 2000
 select * from employees
 join roless_employees on employees.id = roless_employees.emploee_id 
 join roless on roless.id = roless_employees.role_id 
 join employees_salarys on employees.id = employees_salarys.employee_id 
 join salarys on salarys.id = employees_salarys.salarys_id
 where salarys.monthly_salary = 1100 or salarys.monthly_salary = 1500 or salarys.monthly_salary = 2000
--- ��� where salarys.monthly_salary in (1100, 1500, 2000)
+-- или where salarys.monthly_salary in (1100, 1500, 2000)
 order by salarys.monthly_salary asc;
