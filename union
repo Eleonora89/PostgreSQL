@@ -193,15 +193,15 @@ select * from apple_orders;
 select * from phones_samsung;
 select * from phones_apple;
 
---������� ��� ��� ������ �������� � �������
+--выводим все что дороже самсунга в среднем
 select * from phones_apple
 where price > (select avg (price) from phones_samsung);
 
--- ����� ��������� � ������
+-- равны значениям в скобке
 select * from phones_apple
 where price in (1000, 900, 500);
 
--- � ������� ����������
+-- с помощью подзапроса
 select * from phones_samsung
 where price in (select price from phones_samsung where price <800);
 
@@ -210,12 +210,10 @@ where price in (select price from phones_samsung where price <800);
 select * from phones_samsung
 where price < all(select price from phones_apple where price <1000);
 
---- ������ �������� < any �� ������ � ����������
+--- меньше большего < any из списка в подзапросе
 select * from phones_samsung
 where price < any(select price from phones_apple where price <1000);
 
---- ������ �������� > any �� ������ � ����������
+--- больше меньшего > any из списка в подзапросе
 select * from phones_samsung
 where price > any(select price from phones_apple where price <1000);
-
-
