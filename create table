@@ -1,1 +1,239 @@
+create table employees ( 
+id serial primary key,
+employee_name varchar(50) not null 
+);
 
+select * from employees
+
+insert into employees (employee_name)
+values ('Maksim'),
+('Anton'),
+('Anna'),
+('Sasha'),
+('Artem'),
+('Lev'),
+('Pasha'),
+('Igor'),
+('Lisa'),
+('Ana'),
+('Maria'),
+('Marina'),
+('Ada'),
+('Agnessa'),
+('Dima'),
+('Roma'),
+('Gleb'),
+('Vlad'),
+('Boris'),
+('Vadim'),
+('Yana'),
+('Roman'),
+('Denis'),
+('Lea'),
+('Mila'),
+('Mia'),
+('Milana'),
+('Milka'),
+('Olesya'),
+('Alesya'),
+('Olga'),
+('Olya'),
+('Agnia'),
+('Alla'),
+('Dasha'),
+('Vika'),
+('Viktoria'),
+('Vikki'),
+('Dakota'),
+('Masha'),
+('Martin'),
+('Michail'),
+('Mitya'),
+('Marat'),
+('Vova'),
+('Vladislav'),
+('Egor'),
+('Vitaliy'),
+('Oksana'),
+('Angela'),
+('Kristina'),
+('Jeneffer'),
+('Alexander'),
+('Alex'),
+('Alexey'),
+('Rita'),
+('Margarita'),
+('Kolya'),
+('Nikolay'),
+('Pavel'),
+('Lyba'),
+('Lybov'),
+('Andrey'),
+('Janna'),
+('Sveta'),
+('Svetlana'),
+('Iliya'),
+('Katya'),
+('Katerina'),
+('Ekaterina');
+
+create table salarys ( 
+id serial primary key,
+monthly_salary int not null
+);
+
+select * from salarys;
+
+insert into salarys(monthly_salary)
+values (1000),
+(1100),
+(1200),
+(1300),
+(1400),
+(1500),
+(1600),
+(1700),
+(1800),
+(1900),
+(2000),
+(2100),
+(2200),
+(2300),
+(2400),
+(2500);
+
+create table employees_salarys( 
+id serial primary key,
+employee_id int not null unique,
+salarys_id int not null
+);
+
+select * from employees_salarys;
+
+insert into employees_salarys (employee_id, salarys_id)
+values (1, 1),
+(2, 12),
+(5, 2),
+(10, 3),
+(12, 4),
+(14, 5),
+(11, 6),
+(16, 7),
+(17, 8),
+(19, 9),
+(18, 10),
+(13, 11),
+(15, 12),
+(3, 13),
+(6, 14),
+(4, 10),
+(7, 1),
+(9, 2),
+(20, 3),
+(30, 4),
+(21, 5),
+(41, 6),
+(51, 7),
+(27, 8),
+(22, 9),
+(33, 10),
+(44, 11),
+(55, 12),
+(29, 13),
+(37, 14),
+(75, 10),
+(77, 1),
+(79, 2),
+(80, 3),
+(81, 4),
+(83, 5),
+(85, 6),
+(87, 7),
+(72, 8),
+(89, 9);
+
+create table roless( 
+id serial primary key,
+role_name int not null unique
+);
+
+select * from roless;
+
+alter table roless
+alter column role_name type varchar(40) using role_name::varchar(30);
+
+insert into roless (role_name) 
+values ('Junior Python developer'), 
+('Middle Python developer'),
+('Senior Python developer'),
+('Junior Java developer'),
+('Middle Java developer'),
+('Senior Java developer'),
+('Junior JavaScript developer'),
+('Middle JavaScript developer'),
+('Senior JavaScript developer'),
+('Junior Manual QA engineer'),
+('Middle Manual QA engineer'),
+('Senior Manual QA engineer'),
+('Project Manager'),
+('Designer'),
+('HR'),
+('CEO'),
+('Sales manager'),
+('Junior Automation QA engineer'),
+('Middle Automation QA engineer'),
+('Senior Automation QA engineer');
+
+create table roless_employees ( 
+id serial primary key,
+emploee_id int not null unique,
+role_id int not null,
+foreign key (emploee_id) 
+references employees (id),
+foreign key (role_id)
+references roless (id)
+);
+
+select * from roless_employees;
+
+insert into roless_employees (emploee_id, role_id)
+values (1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5),
+(8, 6),
+(10, 7),
+(11, 8),
+(14, 9),
+(13, 10),
+(15, 11),
+(20, 12),
+(22, 13),
+(25, 14),
+(29, 15),
+(26, 16),
+(27, 17),
+(30, 18),
+(33, 19),
+(35, 20),
+(37, 1),
+(34, 2),
+(40, 3),
+(41, 4),
+(44, 6),
+(47, 7),
+(51, 8),
+(53, 9),
+(55, 10),
+(57, 11),
+(59, 12),
+(60, 13),
+(61, 14),
+(63, 15),
+(64, 16),
+(67, 17),
+(68, 18),
+(50, 19),
+(17, 20),
+(19, 1);
